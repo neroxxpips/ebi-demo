@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy the application code to the container
 COPY app.py .
@@ -17,4 +17,4 @@ COPY app.py .
 EXPOSE 5000 
 
 # Start the application
-CMD ["python", "app.py"]
+CMD ["python3", "app.py"]
