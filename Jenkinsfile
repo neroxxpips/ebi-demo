@@ -1,6 +1,7 @@
 /* groovylint-disable CompileStatic, DuplicateStringLiteral, NestedBlockDepth */
 pipeline {
     agent any
+
     environment {
         IMAGE_NAME = 'ebi-demo'
         IMAGE_TAG = 'latest'
@@ -15,7 +16,7 @@ pipeline {
                 DOCKER_USERNAME = 'neroxxpips'
             }
             steps {
-                sh 'docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .'
+                sh 'docker build -t $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG .'
                 sh 'echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin'
                 sh 'docker push $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG'
                 sh 'docker logout'
