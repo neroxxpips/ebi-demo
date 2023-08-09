@@ -1,21 +1,23 @@
 /* groovylint-disable CompileStatic, DuplicateStringLiteral, NestedBlockDepth */
 pipeline {
     agent any
+    environment {
+        IMAGE_NAME = 'ebi-demo'
+        IMAGE_TAG = 'latest'
+    }
 
     stages {
 
         stage('Build and Push Docker Image') {
             environment {
                 DOCKER_REGISTRY = 'neroxxpips'
-                DOCKER_IMAGE_NAME = 'oe-cloud-node-jenkins'
-                DOCKER_IMAGE_TAG = 'latest'
                 DOCKER_PASSWORD = credentials('docker-access-token')
                 DOCKER_USERNAME = 'neroxxpips'
             }
             steps {
                 sh 'docker build -t $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .'
                 sh 'echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin'
-                sh 'docker push $DOCKER_REGISTRY/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG'
+                sh 'docker push $DOCKER_REGISTRY/$IMAGE_NAME:$IMAGE_TAG'
                 sh 'docker logout'
             }
         }
@@ -25,8 +27,6 @@ pipeline {
                 EKS_CLUSTER_NAME = 'OE-DevOps-cluster'
                 AWS_REGION = 'us-east-1'
                 NAMESPACE  = 'ebi-jenkins'
-                IMAGE_NAME = 'ebi-demo'
-                IMAGE_TAG = 'latest'
             }
             steps {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
