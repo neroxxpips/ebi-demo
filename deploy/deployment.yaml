@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ebi-demo
+  name: ebi-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ebi-demo
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ebi-demo
+    spec:
+      containers:
+      - image: neroxxpips/__IMAGE_NAME__:__TAG__
+        name: ebi-demo
+        ports:
+            - containerPort: 5000
